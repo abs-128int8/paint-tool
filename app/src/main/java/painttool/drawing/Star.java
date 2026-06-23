@@ -121,4 +121,16 @@ public class Star extends Drawing {
     var polygon = calcStarPolygon(x, y, w, h, angleOffset);
     setRegion(polygon.getBounds());
   }
+
+  @Override
+  public Drawing clone() {
+    var clone = new Star(getX(), getY(), getW(), getH(), getLineColor(), getFillColor(),
+        getLineWidth());
+    clone.setDashedLine(isDashedLine());
+    clone.setDashPattern(getDashPattern());
+    clone.setLineCount(getLineCount());
+    clone.setDropShadow(isDropShadow());
+    clone.setDropShadowOffset(getDropShadowOffset());
+    return clone;
+  }
 }

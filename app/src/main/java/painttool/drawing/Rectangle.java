@@ -76,4 +76,16 @@ public class Rectangle extends Drawing {
   public void updateRegion() {
     setRegion(new java.awt.Rectangle(getX(), getY(), getW(), getH()));
   }
+
+  @Override
+  public Drawing clone() {
+    var clone = new Rectangle(getX(), getY(), getW(), getH(), getLineColor(), getFillColor(), getLineWidth());
+    clone.setDashedLine(isDashedLine());
+    clone.setDashPattern(getDashPattern());
+    clone.setLineCount(getLineCount());
+    clone.setDropShadowOffset(getDropShadowOffset());
+    clone.setDropShadow(isDropShadow());
+
+    return clone;
+  }
 }

@@ -114,7 +114,13 @@ public class PaintFrame extends JFrame {
 
     canvas.addMouseMotionListener(new MouseMotionAdapter() {
       @Override
+      public void mouseMoved(MouseEvent e) {
+        canvas.setMousePosition(e.getX(), e.getY());
+      }
+
+      @Override
       public void mouseDragged(MouseEvent e) {
+        canvas.setMousePosition(e.getX(), e.getY());
         stateManager.mouseDrag(e.getX(), e.getY());
       }
     });
@@ -124,6 +130,15 @@ public class PaintFrame extends JFrame {
       public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_DELETE) {
           stateManager.getController().deleteSelectedDrawing();
+        }
+        if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_X) {
+          stateManager.getController().cutSelectedDrawing();
+        }
+        if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_C) {
+          stateManager.getController().copySelectedDrawing();
+        }
+        if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_V) {
+          stateManager.getController().pasteCopiedDrawing(canvas.getMouseX(), canvas.getMouseY());
         }
       }
     });

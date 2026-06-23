@@ -11,6 +11,8 @@ import painttool.drawing.DrawingController;
 
 public class PaintCanvas extends JPanel {
   private DrawingController controller;
+  private int mouseX;
+  private int mouseY;
 
   public PaintCanvas() {
     controller = new DrawingController(this);
@@ -32,5 +34,18 @@ public class PaintCanvas extends JPanel {
 
   public DrawingController getController() {
     return controller;
+  }
+
+  public void setMousePosition(int x, int y) {
+    mouseX = x;
+    mouseY = y;
+  }
+
+  public int getMouseX() {
+    return mouseX;
+  }
+
+  public int getMouseY() {
+    return mouseY;
   }
 }

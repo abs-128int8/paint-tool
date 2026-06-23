@@ -10,6 +10,7 @@ public class DrawingController {
   private Vector<Drawing> drawings;
   private PaintCanvas canvas;
   private Drawing selectedDrawing = null;
+  private Drawing copiedDrawing = null;
 
   public DrawingController(PaintCanvas canvas) {
     this.canvas = canvas;
@@ -97,6 +98,28 @@ public class DrawingController {
   public void setSelectedLineWidth(int lineWidth) {
     if (selectedDrawing != null) {
       selectedDrawing.setLineWidth(lineWidth);
+      repaint();
+    }
+  }
+
+  public void copySelectedDrawing() {
+    if (selectedDrawing != null) {
+      copiedDrawing = selectedDrawing.clone();
+    }
+  }
+
+  public void cutSelectedDrawing() {
+    if (selectedDrawing != null) {
+      copiedDrawing = selectedDrawing.clone();
+      deleteSelectedDrawing();
+    }
+  }
+
+  public void pasteCopiedDrawing(int x, int y) {
+    if (copiedDrawing != null) {
+      Drawing newDrawing = copiedDrawing.clone();
+      newDrawing.setLocation(x, y);
+      addDrawing(newDrawing);
       repaint();
     }
   }

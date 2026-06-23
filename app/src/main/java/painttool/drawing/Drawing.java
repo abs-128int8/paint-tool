@@ -227,4 +227,6 @@ public abstract class Drawing {
   }
 
   public abstract void updateRegion();
+
+  public abstract Drawing clone();
 }
