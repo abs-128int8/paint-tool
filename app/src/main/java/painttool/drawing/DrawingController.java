@@ -102,6 +102,13 @@ public class DrawingController {
     }
   }
 
+  public void setSelectedDropShadow(boolean dropShadow) {
+    if (selectedDrawing != null) {
+      selectedDrawing.setDropShadow(dropShadow);
+      repaint();
+    }
+  }
+
   public void copySelectedDrawing() {
     if (selectedDrawing != null) {
       copiedDrawing = selectedDrawing.clone();
@@ -123,4 +130,5 @@ public class DrawingController {
       repaint();
     }
   }
+
 }

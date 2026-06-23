@@ -64,6 +64,7 @@ public class PaintStateManager {
 
   public void setDropShadow(boolean dropShadow) {
     this.dropShadow = dropShadow;
+    getController().setSelectedDropShadow(dropShadow);
   }
 
   public boolean isDropShadow() {
