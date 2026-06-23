@@ -3,6 +3,8 @@ package painttool;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -100,6 +102,7 @@ public class PaintFrame extends JFrame {
     canvas.addMouseListener(new MouseAdapter() {
       @Override
       public void mousePressed(MouseEvent e) {
+        canvas.requestFocusInWindow();
         stateManager.mouseDown(e.getX(), e.getY());
       }
 
@@ -113,6 +116,15 @@ public class PaintFrame extends JFrame {
       @Override
       public void mouseDragged(MouseEvent e) {
         stateManager.mouseDrag(e.getX(), e.getY());
+      }
+    });
+
+    canvas.addKeyListener(new KeyAdapter() {
+      @Override
+      public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_DELETE) {
+          stateManager.getController().deleteSelectedDrawing();
+        }
       }
     });
   }

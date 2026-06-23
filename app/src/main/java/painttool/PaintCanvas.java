@@ -16,6 +16,7 @@ public class PaintCanvas extends JPanel {
     controller = new DrawingController(this);
 
     setBackground(Color.white);
+    setFocusable(true);
   }
 
   @Override

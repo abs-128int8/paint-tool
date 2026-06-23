@@ -58,6 +58,14 @@ public class DrawingController {
     }
   }
 
+  public void deleteSelectedDrawing() {
+    if (selectedDrawing != null) {
+      drawings.remove(selectedDrawing);
+      selectedDrawing = null;
+      repaint();
+    }
+  }
+
   public void setSelectedFillColor(Color color) {
     if (selectedDrawing != null) {
       selectedDrawing.setFillColor(color);
