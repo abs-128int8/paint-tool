@@ -1,14 +1,15 @@
 package painttool.drawing;
 
 import java.util.Vector;
+import java.awt.Color;
 import java.util.Enumeration;
 
 import painttool.PaintCanvas;
 
 public class DrawingController {
-  Vector<Drawing> drawings;
-  PaintCanvas canvas;
-  Drawing selectedDrawing = null;
+  private Vector<Drawing> drawings;
+  private PaintCanvas canvas;
+  private Drawing selectedDrawing = null;
 
   public DrawingController(PaintCanvas canvas) {
     this.canvas = canvas;
@@ -27,9 +28,9 @@ public class DrawingController {
     drawings.remove(drawing);
   }
 
-  public Drawing getSelectedDrawing() {
-    return selectedDrawing;
-  }
+  // public Drawing getSelectedDrawing() {
+  // return selectedDrawing;
+  // }
 
   public void moveSelectedDrawing(int dx, int dy) {
     if (selectedDrawing != null) {
@@ -54,6 +55,41 @@ public class DrawingController {
         selectedDrawing.setSelected(true);
         break;
       }
+    }
+  }
+
+  public void setSelectedFillColor(Color color) {
+    if (selectedDrawing != null) {
+      selectedDrawing.setFillColor(color);
+      repaint();
+    }
+  }
+
+  public Color getSelectedFillColor() {
+    if (selectedDrawing != null) {
+      return selectedDrawing.getFillColor();
+    }
+    return null;
+  }
+
+  public void setSelectedLineColor(Color color) {
+    if (selectedDrawing != null) {
+      selectedDrawing.setLineColor(color);
+      repaint();
+    }
+  }
+
+  public Color getSelectedLineColor() {
+    if (selectedDrawing != null) {
+      return selectedDrawing.getLineColor();
+    }
+    return null;
+  }
+
+  public void setSelectedLineWidth(int lineWidth) {
+    if (selectedDrawing != null) {
+      selectedDrawing.setLineWidth(lineWidth);
+      repaint();
     }
   }
 }
