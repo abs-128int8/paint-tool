@@ -119,7 +119,7 @@ public class Star extends Drawing {
     }
 
     var polygon = calcStarPolygon(x, y, w, h, angleOffset);
-    setRegion(polygon.getBounds());
+    setRegion(polygon);
   }
 
   @Override

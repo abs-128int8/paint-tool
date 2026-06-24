@@ -111,7 +111,7 @@ public class Hendecagonal extends Drawing {
     }
 
     var polygon = calcHendecagonalPolygon(x, y, w, h, angleOffset);
-    setRegion(polygon.getBounds());
+    setRegion(polygon);
   }
 
   @Override
