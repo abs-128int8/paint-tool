@@ -74,7 +74,20 @@ public class Rectangle extends Drawing {
 
   @Override
   public void updateRegion() {
-    setRegion(new java.awt.Rectangle(getX(), getY(), getW(), getH()));
+    int x = getX();
+    int y = getY();
+    int w = getW();
+    int h = getH();
+
+    if (w < 0) {
+      x += w;
+      w = -w;
+    }
+    if (h < 0) {
+      y += h;
+      h = -h;
+    }
+    setRegion(new java.awt.Rectangle(x, y, w, h));
   }
 
   @Override

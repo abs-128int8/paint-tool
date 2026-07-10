@@ -226,6 +226,10 @@ public abstract class Drawing {
     this.region = region;
   }
 
+  public Shape getRegion() {
+    return region;
+  }
+
   public abstract void updateRegion();
 
   public abstract Drawing clone();

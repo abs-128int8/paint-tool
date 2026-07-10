@@ -4,6 +4,7 @@ import java.util.Vector;
 import java.awt.Color;
 import java.util.Enumeration;
 
+import painttool.DashPattern;
 import painttool.PaintCanvas;
 
 public class DrawingController {
@@ -11,12 +12,15 @@ public class DrawingController {
   private PaintCanvas canvas;
   private Vector<Drawing> selectedDrawings;
   private Vector<Drawing> copiedDrawings;
+  private Rectangle selectionRectangle;
+  private boolean rangeSelecting = false;
 
   public DrawingController(PaintCanvas canvas) {
     this.canvas = canvas;
     drawings = new Vector<Drawing>();
     selectedDrawings = new Vector<Drawing>();
     copiedDrawings = new Vector<Drawing>();
+    selectionRectangle = new Rectangle(0, 0, 0, 0, Color.gray, new Color(0.5f, 0.5f, 0.5f, 0.6f), 2);
   }
 
   public Enumeration<Drawing> getDrawingElements() {
@@ -69,6 +73,19 @@ public class DrawingController {
     }
   }
 
+  public void selectDrawings() {
+    clearSelecting();
+    for (var d : drawings) {
+      if (d == selectionRectangle) {
+        continue;
+      }
+      if (selectionRectangle.getRegion().contains(d.getRegion().getBounds2D())) {
+        addSelectedDrawing(d);
+      }
+    }
+    repaint();
+  }
+
   public void removeSelectedDrawing(Drawing drawing) {
     if (selectedDrawings.contains(drawing)) {
       selectedDrawings.remove(drawing);
@@ -80,6 +97,24 @@ public class DrawingController {
     drawings.removeAll(selectedDrawings);
     selectedDrawings.clear();
     repaint();
+  }
+
+  public void setSelectionBounds(int x, int y, int w, int h) {
+    selectionRectangle.setBounds(x, y, w, h);
+    repaint();
+  }
+
+  public void setRangeSelecting(boolean rangeSelecting) {
+    if (rangeSelecting) {
+      addDrawing(selectionRectangle);
+    } else {
+      removeDrawing(selectionRectangle);
+    }
+    this.rangeSelecting = rangeSelecting;
+  }
+
+  public boolean isRangeSelecting() {
+    return rangeSelecting;
   }
 
   public void setSelectedFillColor(Color color) {

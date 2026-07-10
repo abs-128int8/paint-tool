@@ -73,7 +73,20 @@ public class Oval extends Drawing {
 
   @Override
   public void updateRegion() {
-    setRegion(new Ellipse2D.Double(getX(), getY(), getW(), getH()));
+    int x = getX();
+    int y = getY();
+    int w = getW();
+    int h = getH();
+
+    if (w < 0) {
+      x += w;
+      w = -w;
+    }
+    if (h < 0) {
+      y += h;
+      h = -h;
+    }
+    setRegion(new Ellipse2D.Double(x, y, w, h));
   }
 
   @Override
