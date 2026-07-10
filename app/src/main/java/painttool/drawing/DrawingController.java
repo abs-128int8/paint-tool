@@ -9,12 +9,14 @@ import painttool.PaintCanvas;
 public class DrawingController {
   private Vector<Drawing> drawings;
   private PaintCanvas canvas;
-  private Drawing selectedDrawing = null;
-  private Drawing copiedDrawing = null;
+  private Vector<Drawing> selectedDrawings;
+  private Vector<Drawing> copiedDrawings;
 
   public DrawingController(PaintCanvas canvas) {
     this.canvas = canvas;
     drawings = new Vector<Drawing>();
+    selectedDrawings = new Vector<Drawing>();
+    copiedDrawings = new Vector<Drawing>();
   }
 
   public Enumeration<Drawing> getDrawingElements() {
@@ -29,13 +31,9 @@ public class DrawingController {
     drawings.remove(drawing);
   }
 
-  // public Drawing getSelectedDrawing() {
-  // return selectedDrawing;
-  // }
-
-  public void moveSelectedDrawing(int dx, int dy) {
-    if (selectedDrawing != null) {
-      selectedDrawing.move(dx, dy);
+  public void moveSelectedDrawings(int dx, int dy) {
+    for (var d : selectedDrawings) {
+      d.move(dx, dy);
     }
   }
 
@@ -43,92 +41,111 @@ public class DrawingController {
     canvas.repaint();
   }
 
-  public void selectDrawing(int x, int y) {
-    for (var d : drawings) {
+  public void clearSelecting() {
+    for (var d : selectedDrawings) {
       d.setSelected(false);
-      selectedDrawing = null;
     }
+    selectedDrawings.clear();
+  }
 
+  public Vector<Drawing> getSelectedDrawings() {
+    return selectedDrawings;
+  }
+
+  public Drawing findDrawingAt(int x, int y) {
     for (int i = drawings.size() - 1; i >= 0; i--) {
       Drawing d = drawings.get(i);
       if (d.contains(x, y)) {
-        selectedDrawing = d;
-        selectedDrawing.setSelected(true);
-        break;
+        return d;
       }
+    }
+    return null;
+  }
+
+  public void addSelectedDrawing(Drawing drawing) {
+    if (!selectedDrawings.contains(drawing)) {
+      selectedDrawings.add(drawing);
+      drawing.setSelected(true);
     }
   }
 
-  public void deleteSelectedDrawing() {
-    if (selectedDrawing != null) {
-      drawings.remove(selectedDrawing);
-      selectedDrawing = null;
-      repaint();
+  public void removeSelectedDrawing(Drawing drawing) {
+    if (selectedDrawings.contains(drawing)) {
+      selectedDrawings.remove(drawing);
+      drawing.setSelected(false);
     }
+  }
+
+  public void removeSelectedDrawings() {
+    drawings.removeAll(selectedDrawings);
+    selectedDrawings.clear();
+    repaint();
   }
 
   public void setSelectedFillColor(Color color) {
-    if (selectedDrawing != null) {
-      selectedDrawing.setFillColor(color);
-      repaint();
+    for (var d : selectedDrawings) {
+      d.setFillColor(color);
     }
+    repaint();
   }
 
   public Color getSelectedFillColor() {
-    if (selectedDrawing != null) {
-      return selectedDrawing.getFillColor();
+    if (!selectedDrawings.isEmpty()) {
+      return selectedDrawings.get(0).getFillColor();
     }
     return null;
   }
 
   public void setSelectedLineColor(Color color) {
-    if (selectedDrawing != null) {
-      selectedDrawing.setLineColor(color);
-      repaint();
+    for (var d : selectedDrawings) {
+      d.setLineColor(color);
     }
+    repaint();
   }
 
   public Color getSelectedLineColor() {
-    if (selectedDrawing != null) {
-      return selectedDrawing.getLineColor();
+    if (!selectedDrawings.isEmpty()) {
+      return selectedDrawings.get(0).getLineColor();
     }
     return null;
   }
 
   public void setSelectedLineWidth(int lineWidth) {
-    if (selectedDrawing != null) {
-      selectedDrawing.setLineWidth(lineWidth);
-      repaint();
+    for (var d : selectedDrawings) {
+      d.setLineWidth(lineWidth);
     }
+    repaint();
   }
 
   public void setSelectedDropShadow(boolean dropShadow) {
-    if (selectedDrawing != null) {
-      selectedDrawing.setDropShadow(dropShadow);
+    for (var d : selectedDrawings) {
+      d.setDropShadow(dropShadow);
+    }
+    repaint();
+  }
+
+  public void copySelectedDrawings() {
+    if (!selectedDrawings.isEmpty()) {
+      copiedDrawings.clear();
+      for (var d : selectedDrawings) {
+        copiedDrawings.add(d.clone());
+      }
+    }
+  }
+
+  public void cutSelectedDrawings() {
+    copySelectedDrawings();
+    removeSelectedDrawings();
+  }
+
+  public void pasteCopiedDrawings(int x, int y) {
+    if (!copiedDrawings.isEmpty()) {
+      for (var d : copiedDrawings) {
+        Drawing newDrawing = d.clone();
+        newDrawing.setLocation(x, y);
+        addDrawing(newDrawing);
+      }
       repaint();
     }
   }
-
-  public void copySelectedDrawing() {
-    if (selectedDrawing != null) {
-      copiedDrawing = selectedDrawing.clone();
-    }
-  }
-
-  public void cutSelectedDrawing() {
-    if (selectedDrawing != null) {
-      copiedDrawing = selectedDrawing.clone();
-      deleteSelectedDrawing();
-    }
-  }
-
-  public void pasteCopiedDrawing(int x, int y) {
-    if (copiedDrawing != null) {
-      Drawing newDrawing = copiedDrawing.clone();
-      newDrawing.setLocation(x, y);
-      addDrawing(newDrawing);
-      repaint();
-    }
-  }
-
 }

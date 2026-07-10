@@ -13,10 +13,26 @@ public class SelectState implements State {
   }
 
   @Override
-  public void mouseDown(int x, int y) {
+  public void mouseDown(int x, int y, boolean isControlDown, boolean isShiftDown) {
     previousX = x;
     previousY = y;
-    stateManager.getController().selectDrawing(x, y);
+    var controller = stateManager.getController();
+    var d = controller.findDrawingAt(x, y);
+    if (d != null) {
+      if (!isControlDown && !isShiftDown) {
+        controller.clearSelecting();
+        controller.addSelectedDrawing(d);
+      } else if (isShiftDown) {
+        if (controller.getSelectedDrawings().contains(d)) {
+          controller.removeSelectedDrawing(d);
+        } else {
+          controller.addSelectedDrawing(d);
+        }
+      } else if (isControlDown) {
+        controller.addSelectedDrawing(d);
+      }
+    }
+
   }
 
   @Override
@@ -27,7 +43,7 @@ public class SelectState implements State {
   public void mouseDrag(int x, int y) {
     int dx = x - previousX;
     int dy = y - previousY;
-    stateManager.getController().moveSelectedDrawing(dx, dy);
+    stateManager.getController().moveSelectedDrawings(dx, dy);
     previousX = x;
     previousY = y;
   }

@@ -12,7 +12,7 @@ public class RectState implements State {
   }
 
   @Override
-  public void mouseDown(int x, int y) {
+  public void mouseDown(int x, int y, boolean isControlDown, boolean isShiftDown) {
     rect = new Rectangle(x, y, 0, 0);
     stateManager.addDrawing(rect);
   }

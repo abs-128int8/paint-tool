@@ -103,7 +103,7 @@ public class PaintFrame extends JFrame {
       @Override
       public void mousePressed(MouseEvent e) {
         canvas.requestFocusInWindow();
-        stateManager.mouseDown(e.getX(), e.getY());
+        stateManager.mouseDown(e.getX(), e.getY(), e.isControlDown(), e.isShiftDown());
       }
 
       @Override
@@ -129,16 +129,16 @@ public class PaintFrame extends JFrame {
       @Override
       public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_DELETE) {
-          stateManager.getController().deleteSelectedDrawing();
+          stateManager.getController().removeSelectedDrawings();
         }
         if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_X) {
-          stateManager.getController().cutSelectedDrawing();
+          stateManager.getController().cutSelectedDrawings();
         }
         if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_C) {
-          stateManager.getController().copySelectedDrawing();
+          stateManager.getController().copySelectedDrawings();
         }
         if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_V) {
-          stateManager.getController().pasteCopiedDrawing(canvas.getMouseX(), canvas.getMouseY());
+          stateManager.getController().pasteCopiedDrawings(canvas.getMouseX(), canvas.getMouseY());
         }
       }
     });

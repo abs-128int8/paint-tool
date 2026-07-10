@@ -12,7 +12,7 @@ public class HendecagonalState implements State {
   }
 
   @Override
-  public void mouseDown(int x, int y) {
+  public void mouseDown(int x, int y, boolean isControlDown, boolean isShiftDown) {
     hendecagonal = new Hendecagonal(x, y, 0, 0);
     stateManager.addDrawing(hendecagonal);
   }

@@ -1,7 +1,7 @@
 package painttool.state;
 
 public interface State {
-  public void mouseDown(int x, int y);
+  public void mouseDown(int x, int y, boolean isControlDown, boolean isShiftDown);
 
   public void mouseUp(int x, int y);
 

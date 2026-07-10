@@ -12,7 +12,7 @@ public class StarState implements State {
   }
 
   @Override
-  public void mouseDown(int x, int y) {
+  public void mouseDown(int x, int y, boolean isControlDown, boolean isShiftDown) {
     star = new Star(x, y, 0, 0);
     stateManager.addDrawing(star);
   }

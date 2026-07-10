@@ -28,8 +28,8 @@ public class PaintStateManager {
     this.state = state;
   }
 
-  public void mouseDown(int x, int y) {
-    state.mouseDown(x, y);
+  public void mouseDown(int x, int y, boolean isControlDown, boolean isShiftDown) {
+    state.mouseDown(x, y, isControlDown, isShiftDown);
     canvas.repaint();
   }
 
