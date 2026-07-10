@@ -4,14 +4,37 @@ import java.util.Vector;
 import java.awt.Color;
 import java.util.Enumeration;
 
-import painttool.DashPattern;
 import painttool.PaintCanvas;
+
+class CopiedDrawing {
+  private Drawing drawing;
+  private int offsetX;
+  private int offsetY;
+
+  public CopiedDrawing(Drawing drawing, int offsetX, int offsetY) {
+    this.drawing = drawing;
+    this.offsetX = offsetX;
+    this.offsetY = offsetY;
+  }
+
+  public Drawing getDrawing() {
+    return drawing;
+  }
+
+  public int getOffsetX() {
+    return offsetX;
+  }
+
+  public int getOffsetY() {
+    return offsetY;
+  }
+}
 
 public class DrawingController {
   private Vector<Drawing> drawings;
   private PaintCanvas canvas;
   private Vector<Drawing> selectedDrawings;
-  private Vector<Drawing> copiedDrawings;
+  private Vector<CopiedDrawing> copiedDrawings;
   private Rectangle selectionRectangle;
   private boolean rangeSelecting = false;
 
@@ -19,7 +42,7 @@ public class DrawingController {
     this.canvas = canvas;
     drawings = new Vector<Drawing>();
     selectedDrawings = new Vector<Drawing>();
-    copiedDrawings = new Vector<Drawing>();
+    copiedDrawings = new Vector<CopiedDrawing>();
     selectionRectangle = new Rectangle(0, 0, 0, 0, Color.gray, new Color(0.5f, 0.5f, 0.5f, 0.6f), 2);
   }
 
@@ -163,7 +186,7 @@ public class DrawingController {
     if (!selectedDrawings.isEmpty()) {
       copiedDrawings.clear();
       for (var d : selectedDrawings) {
-        copiedDrawings.add(d.clone());
+        copiedDrawings.add(new CopiedDrawing(d.clone(), d.getX(), d.getY()));
       }
     }
   }
@@ -175,10 +198,12 @@ public class DrawingController {
 
   public void pasteCopiedDrawings(int x, int y) {
     if (!copiedDrawings.isEmpty()) {
+      clearSelecting();
       for (var d : copiedDrawings) {
-        Drawing newDrawing = d.clone();
-        newDrawing.setLocation(x, y);
+        Drawing newDrawing = d.getDrawing().clone();
+        newDrawing.setLocation(x + d.getOffsetX(), y + d.getOffsetY());
         addDrawing(newDrawing);
+        addSelectedDrawing(newDrawing);
       }
       repaint();
     }
