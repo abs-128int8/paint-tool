@@ -6,31 +6,31 @@ import java.util.Enumeration;
 
 import painttool.PaintCanvas;
 
-class CopiedDrawing {
-  private Drawing drawing;
-  private int offsetX;
-  private int offsetY;
-
-  public CopiedDrawing(Drawing drawing, int offsetX, int offsetY) {
-    this.drawing = drawing;
-    this.offsetX = offsetX;
-    this.offsetY = offsetY;
-  }
-
-  public Drawing getDrawing() {
-    return drawing;
-  }
-
-  public int getOffsetX() {
-    return offsetX;
-  }
-
-  public int getOffsetY() {
-    return offsetY;
-  }
-}
-
 public class DrawingController {
+  private static class CopiedDrawing {
+    private Drawing drawing;
+    private int offsetX;
+    private int offsetY;
+
+    public CopiedDrawing(Drawing drawing, int offsetX, int offsetY) {
+      this.drawing = drawing;
+      this.offsetX = offsetX;
+      this.offsetY = offsetY;
+    }
+
+    public Drawing getDrawing() {
+      return drawing;
+    }
+
+    public int getOffsetX() {
+      return offsetX;
+    }
+
+    public int getOffsetY() {
+      return offsetY;
+    }
+  }
+
   private Vector<Drawing> drawings;
   private PaintCanvas canvas;
   private Vector<Drawing> selectedDrawings;
@@ -185,8 +185,15 @@ public class DrawingController {
   public void copySelectedDrawings() {
     if (!selectedDrawings.isEmpty()) {
       copiedDrawings.clear();
+      double baseX = Integer.MAX_VALUE;
+      double baseY = Integer.MAX_VALUE;
       for (var d : selectedDrawings) {
-        copiedDrawings.add(new CopiedDrawing(d.clone(), d.getX(), d.getY()));
+        var bounds = d.getRegion().getBounds2D();
+        baseX = Math.min(baseX, bounds.getX());
+        baseY = Math.min(baseY, bounds.getY());
+      }
+      for (var d : selectedDrawings) {
+        copiedDrawings.add(new CopiedDrawing(d.clone(), (int) (d.getX() - baseX), (int) (d.getY() - baseY)));
       }
     }
   }
