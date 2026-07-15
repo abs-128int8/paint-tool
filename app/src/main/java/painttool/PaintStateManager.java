@@ -10,6 +10,7 @@ import painttool.drawing.DrawingController;
 
 public class PaintStateManager {
   private PaintCanvas canvas;
+  private DrawingController controller;
 
   private State state = new RectState(this);
   private boolean dashedLine = Drawing.DEFAULT_DASHED_LINE;
@@ -22,6 +23,7 @@ public class PaintStateManager {
 
   public PaintStateManager(PaintCanvas canvas) {
     this.canvas = canvas;
+    this.controller = canvas.getController();
   }
 
   public void setState(State state) {
@@ -51,78 +53,81 @@ public class PaintStateManager {
     d.setLineCount(lineCount);
     d.setFillColor(fillColor);
     d.setLineColor(lineColor);
-    canvas.getController().addDrawing(d);
+    controller.addDrawing(d);
+  }
+
+  public DrawingController getController() {
+    return controller;
   }
 
   public void setDashedLine(boolean dashedLine) {
     this.dashedLine = dashedLine;
+    controller.setSelectedDashedLine(dashedLine);
   }
 
   public boolean isDashedLine() {
-    return dashedLine;
+    var selectedDashedLine = controller.isSelectedDashedLine();
+    return (selectedDashedLine) ? selectedDashedLine : dashedLine;
   }
 
   public void setDropShadow(boolean dropShadow) {
     this.dropShadow = dropShadow;
-    getController().setSelectedDropShadow(dropShadow);
+    controller.setSelectedDropShadow(dropShadow);
   }
 
   public boolean isDropShadow() {
-    return dropShadow;
+    var selectedDropShadow = controller.isSelectedDropShadow();
+    return (selectedDropShadow) ? selectedDropShadow : dropShadow;
   }
 
   public void setDashPattern(DashPattern dashPattern) {
     this.dashPattern = dashPattern;
+    controller.setSelectedDashPattern(dashPattern);
   }
 
   public DashPattern getDashPattern() {
-    return dashPattern;
+    var selectedDashPattern = controller.getSelectedDashPattern();
+    return (selectedDashPattern != null) ? selectedDashPattern : dashPattern;
   }
 
   public void setLineWidth(int lineWidth) {
     this.lineWidth = lineWidth;
-    getController().setSelectedLineWidth(lineWidth);
+    controller.setSelectedLineWidth(lineWidth);
   }
 
   public int getLineWidth() {
-    return lineWidth;
+    var selectedLineWidth = controller.getSelectedLineWidth();
+    return (selectedLineWidth != -1) ? selectedLineWidth : lineWidth;
   }
 
   public void setLineCount(int lineCount) {
     this.lineCount = lineCount;
+    controller.setSelectedLineCount(lineCount);
   }
 
   public int getLineCount() {
-    return lineCount;
-  }
-
-  public DrawingController getController() {
-    return canvas.getController();
+    var selectedLineCount = controller.getSelectedLineCount();
+    return (selectedLineCount != -1) ? selectedLineCount : lineWidth;
   }
 
   public void setFillColor(Color color) {
     this.fillColor = color;
-    getController().setSelectedFillColor(color);
+    controller.setSelectedFillColor(color);
   }
 
   public Color getFillColor() {
-    var color = getController().getSelectedFillColor();
-    if (color != null) {
-      return color;
-    }
-    return fillColor;
+    var selectedFillColor = controller.getSelectedFillColor();
+    return (selectedFillColor != null) ? selectedFillColor : fillColor;
   }
 
   public void setLineColor(Color color) {
     this.lineColor = color;
-    getController().setSelectedLineColor(color);
+    controller.setSelectedLineColor(color);
   }
 
   public Color getLineColor() {
-    var color = getController().getSelectedLineColor();
-    if (color != null) {
-      return color;
-    }
-    return lineColor;
+    var selectedLineColor = controller.getSelectedLineColor();
+    return (selectedLineColor != null) ? selectedLineColor : lineColor;
   }
+
 }

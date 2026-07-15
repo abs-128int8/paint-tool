@@ -8,6 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Enumeration;
 
+import painttool.DashPattern;
 import painttool.PaintCanvas;
 
 public class DrawingController {
@@ -179,9 +180,65 @@ public class DrawingController {
     repaint();
   }
 
+  public int getSelectedLineWidth() {
+    if (!selectedDrawings.isEmpty()) {
+      return selectedDrawings.get(0).getLineWidth();
+    }
+    return -1;
+  }
+
+  public boolean isSelectedDropShadow() {
+    if (!selectedDrawings.isEmpty()) {
+      return selectedDrawings.get(0).isDropShadow();
+    }
+    return false;
+  }
+
   public void setSelectedDropShadow(boolean dropShadow) {
     for (var d : selectedDrawings) {
       d.setDropShadow(dropShadow);
+    }
+    repaint();
+  }
+
+  public int getSelectedLineCount() {
+    if (!selectedDrawings.isEmpty()) {
+      return selectedDrawings.get(0).getLineCount();
+    }
+    return -1;
+  }
+
+  public void setSelectedLineCount(int lineCount) {
+    for (var d : selectedDrawings) {
+      d.setLineCount(lineCount);
+    }
+    repaint();
+  }
+
+  public boolean isSelectedDashedLine() {
+    if (!selectedDrawings.isEmpty()) {
+      return selectedDrawings.get(0).isDashedLine();
+    }
+    return false;
+  }
+
+  public void setSelectedDashedLine(boolean dashedLine) {
+    for (var d : selectedDrawings) {
+      d.setDashedLine(dashedLine);
+    }
+    repaint();
+  }
+
+  public DashPattern getSelectedDashPattern() {
+    if (!selectedDrawings.isEmpty()) {
+      return selectedDrawings.get(0).getDashPattern();
+    }
+    return null;
+  }
+
+  public void setSelectedDashPattern(DashPattern dashPattern) {
+    for (var d : selectedDrawings) {
+      d.setDashPattern(dashPattern);
     }
     repaint();
   }
