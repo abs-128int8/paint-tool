@@ -23,7 +23,7 @@ public class SelectState implements State {
     previousY = y;
     var d = controller.findDrawingAt(x, y);
     if (d != null) {
-      if (!isControlDown && !isShiftDown) {
+      if (!isControlDown && !isShiftDown && controller.getSelectedDrawings().size() <= 1) {
         controller.clearSelecting();
         controller.addSelectedDrawing(d);
       } else if (isShiftDown) {
