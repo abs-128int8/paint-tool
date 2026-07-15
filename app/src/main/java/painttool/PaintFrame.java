@@ -140,6 +140,13 @@ public class PaintFrame extends JFrame {
         if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_V) {
           stateManager.getController().pasteCopiedDrawings(canvas.getMouseX(), canvas.getMouseY());
         }
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+          if (e.isControlDown()) {
+            stateManager.getController().loadDrawings("Test.obj");
+          } else {
+            stateManager.getController().saveDrawings("Test.obj");
+          }
+        }
       }
     });
   }

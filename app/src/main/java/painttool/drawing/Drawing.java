@@ -3,11 +3,12 @@ package painttool.drawing;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Shape;
+import java.io.Serializable;
 import java.util.Objects;
 
 import painttool.DashPattern;
 
-public abstract class Drawing {
+public abstract class Drawing implements Serializable {
   private int x;
   private int y;
   private int w;
@@ -21,8 +22,8 @@ public abstract class Drawing {
   private int dropShadowOffset;
   private boolean dropShadow;
 
-  private boolean selected;
-  private Shape region;
+  transient private boolean selected;
+  transient private Shape region;
 
   private static final int SELECTED_BOX_SIZE = 6;
 

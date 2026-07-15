@@ -2,6 +2,10 @@ package painttool.drawing;
 
 import java.util.Vector;
 import java.awt.Color;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Enumeration;
 
 import painttool.PaintCanvas;
@@ -212,6 +216,36 @@ public class DrawingController {
         addDrawing(newDrawing);
         addSelectedDrawing(newDrawing);
       }
+      repaint();
+    }
+  }
+
+  public void saveDrawings(String filename) {
+    try (var out = new ObjectOutputStream(new FileOutputStream(filename))) {
+      out.writeObject(drawings);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  @SuppressWarnings("unchecked")
+  public void loadDrawings(String filename) {
+    var backup = drawings;
+    try (var in = new ObjectInputStream(new FileInputStream(filename))) {
+      var loaded = (Vector<Drawing>) in.readObject();
+      for (var d : loaded) {
+        d.updateRegion();
+        d.setSelected(false);
+      }
+
+      drawings = loaded;
+      selectedDrawings.clear();
+      copiedDrawings.clear();
+
+      repaint();
+    } catch (Exception e) {
+      e.printStackTrace();
+      drawings = backup;
       repaint();
     }
   }
