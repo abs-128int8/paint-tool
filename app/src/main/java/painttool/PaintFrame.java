@@ -52,13 +52,29 @@ public class PaintFrame extends JFrame {
 
   private void registerComponents(JPanel jp) {
     var menuBar = new JMenuBar();
+
+    var fileMenu = new JMenu("File");
+    var fileMenuOpenFile = new JMenuItem("Open File");
+    var fileMenuSaveFile = new JMenuItem("Save File");
+
     var colorMenu = new JMenu("Color");
     var colorMenuFill = new JMenuItem("Fill Color");
     var colorMenuLine = new JMenuItem("Line Color");
 
     setJMenuBar(menuBar);
+    fileMenu.add(fileMenuOpenFile);
+    fileMenu.add(fileMenuSaveFile);
     colorMenu.add(colorMenuFill);
     colorMenu.add(colorMenuLine);
+    menuBar.add(fileMenu);
+    menuBar.add(colorMenu);
+
+    fileMenuOpenFile.addActionListener(e -> {
+      stateManager.getController().loadDrawings("Test.obj");
+    });
+    fileMenuSaveFile.addActionListener(e -> {
+      stateManager.getController().loadDrawings("Test.obj");
+    });
     colorMenuFill.addActionListener(e -> {
       Color color = JColorChooser.showDialog(this, "Fill Color", stateManager.getFillColor());
       if (color != null) {
@@ -71,7 +87,6 @@ public class PaintFrame extends JFrame {
         stateManager.setLineColor(color);
       }
     });
-    menuBar.add(colorMenu);
 
     var rectButton = new RectButton(stateManager);
     var ovalButton = new OvalButton(stateManager);
@@ -139,13 +154,6 @@ public class PaintFrame extends JFrame {
         }
         if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_V) {
           stateManager.getController().pasteCopiedDrawings(canvas.getMouseX(), canvas.getMouseY());
-        }
-        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-          if (e.isControlDown()) {
-            stateManager.getController().loadDrawings("Test.obj");
-          } else {
-            stateManager.getController().saveDrawings("Test.obj");
-          }
         }
       }
     });
