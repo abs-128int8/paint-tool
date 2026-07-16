@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
 import javax.swing.JColorChooser;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -70,10 +71,18 @@ public class PaintFrame extends JFrame {
     menuBar.add(colorMenu);
 
     fileMenuOpenFile.addActionListener(e -> {
-      stateManager.getController().loadDrawings("Test.obj");
+      var fileChooser = new JFileChooser();
+      var result = fileChooser.showOpenDialog(this);
+      if (result == JFileChooser.APPROVE_OPTION) {
+        stateManager.getController().loadDrawings(fileChooser.getSelectedFile().getAbsolutePath());
+      }
     });
     fileMenuSaveFile.addActionListener(e -> {
-      stateManager.getController().loadDrawings("Test.obj");
+      var fileChooser = new JFileChooser();
+      var result = fileChooser.showSaveDialog(this);
+      if (result == JFileChooser.APPROVE_OPTION) {
+        stateManager.getController().saveDrawings(fileChooser.getSelectedFile().getAbsolutePath());
+      }
     });
     colorMenuFill.addActionListener(e -> {
       Color color = JColorChooser.showDialog(this, "Fill Color", stateManager.getFillColor());
