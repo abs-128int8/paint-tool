@@ -94,7 +94,7 @@ public class DrawingController {
     return null;
   }
 
-  public void addSelectedDrawing(Drawing drawing) {
+  public void selectDrawing(Drawing drawing) {
     if (!selectedDrawings.contains(drawing)) {
       selectedDrawings.add(drawing);
       drawing.setSelected(true);
@@ -108,13 +108,13 @@ public class DrawingController {
         continue;
       }
       if (selectionRectangle.getRegion().contains(d.getRegion().getBounds2D())) {
-        addSelectedDrawing(d);
+        selectDrawing(d);
       }
     }
     repaint();
   }
 
-  public void removeSelectedDrawing(Drawing drawing) {
+  public void deselectDrawing(Drawing drawing) {
     if (selectedDrawings.contains(drawing)) {
       selectedDrawings.remove(drawing);
       drawing.setSelected(false);
@@ -271,7 +271,7 @@ public class DrawingController {
         Drawing newDrawing = d.getDrawing().clone();
         newDrawing.setLocation(x + d.getOffsetX(), y + d.getOffsetY());
         addDrawing(newDrawing);
-        addSelectedDrawing(newDrawing);
+        selectDrawing(newDrawing);
       }
       repaint();
     }

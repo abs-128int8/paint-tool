@@ -107,7 +107,7 @@ public class PaintStateManager {
 
   public int getLineCount() {
     var selectedLineCount = controller.getSelectedLineCount();
-    return (selectedLineCount != -1) ? selectedLineCount : lineWidth;
+    return (selectedLineCount != -1) ? selectedLineCount : lineCount;
   }
 
   public void setFillColor(Color color) {

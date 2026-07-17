@@ -25,15 +25,15 @@ public class SelectState implements State {
     if (d != null) {
       if (!isControlDown && !isShiftDown && controller.getSelectedDrawings().size() <= 1) {
         controller.clearSelecting();
-        controller.addSelectedDrawing(d);
+        controller.selectDrawing(d);
       } else if (isShiftDown) {
         if (controller.getSelectedDrawings().contains(d)) {
-          controller.removeSelectedDrawing(d);
+          controller.deselectDrawing(d);
         } else {
-          controller.addSelectedDrawing(d);
+          controller.selectDrawing(d);
         }
       } else if (isControlDown) {
-        controller.addSelectedDrawing(d);
+        controller.selectDrawing(d);
       }
     } else {
       controller.clearSelecting();
